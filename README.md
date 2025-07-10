@@ -19,7 +19,24 @@ Esta es una aplicación de lista de tareas (To-Do List) desarrollada con Flutter
 
 El proyecto sigue una estructura organizada para separar las responsabilidades y facilitar el mantenimiento:
 
+```plaintext
+lib/
+├── Login.dart                 # Pantalla de inicio de sesión
+├── components/                # Widgets reutilizables
+│   └── drawable.dart
+├── constants.dart             # Constantes de la aplicación
+├── controller/                # Lógica de negocio y gestión de estado
+│   ├── auth_service.dart      # Servicio de autenticación (login/registro)
+│   ├── task_controller.dart   # Controlador para la gestión de tareas
+│   └── user_controller.dart   # Controlador para la gestión de datos del usuario
+├── formulario_editar_tareas.dart # Formulario para editar tareas existentes
+├── formulario_registro.dart   # Pantalla de registro de nuevos usuarios
+├── formulario_tareas.dart     # Formulario para crear nuevas tareas
+├── index.dart                 # Pantalla principal después del login (posiblemente la lista de tareas)
+├── lista_tareas.dart          # Widget que muestra la lista de tareas
+└── main.dart                  # Punto de entrada de la aplicación y configuración de rutas
 ```
+
 
 ## Base de Datos
 
