@@ -20,6 +20,33 @@ Esta es una aplicación de lista de tareas (To-Do List) desarrollada con Flutter
 El proyecto sigue una estructura organizada para separar las responsabilidades y facilitar el mantenimiento:
 
 ```
+
+## Base de Datos
+
+Este proyecto utiliza la tabla nativa de usuarios proporcionada por Supabase (`auth.users`) para la gestión de usuarios.
+
+No es necesario verificar el correo electrónico para que los usuarios puedan iniciar sesión inmediatamente después del registro.
+
+La base de datos incluye una tabla `tareas` con el siguiente esquema:
+
+- `id` (int8): Clave primaria, autoincremental.
+- `estatus` (boolean): Estado de la tarea.
+- `titulo` (text): Título de la tarea.
+- `contenido` (text): Contenido o descripción de la tarea.
+- `created_at` (timestamptz): Marca de tiempo de creación, por defecto la hora actual.
+- `fk_user` (uuid): Clave foránea que referencia a `auth.users(id)`, con eliminación en cascada.
+
+Se incluye un archivo `supabase_schema.sql` con la definición de las tablas necesarias para la aplicación, que puede ser importado directamente en Supabase.
+
+Para importar el esquema:
+
+1. Accede a tu proyecto en Supabase.
+2. Ve a la sección SQL Editor.
+3. Carga y ejecuta el archivo `supabase_schema.sql`.
+
+Esto creará las tablas necesarias para que la aplicación funcione correctamente.
+
+```
 lib/
 ├── Login.dart                 # Pantalla de inicio de sesión
 ├── components/                # Widgets reutilizables
