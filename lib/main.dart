@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:to_do_list/Login.dart';
 import 'package:to_do_list/controller/user_controller.dart';
@@ -10,12 +11,12 @@ import 'package:to_do_list/index.dart';
 import 'package:to_do_list/formulario_registro.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: 'https://aqljfleqbaxyzqmifomb.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxbGpmbGVxYmF4eXpxbWlmb21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NTUwMzMsImV4cCI6MjA2NTUzMTAzM30.XvtTNb5KM2PLd8bP2qmQ5tCRwfikVc_eDO2nUucFZNU',
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
   Get.put(UserController());
   Get.put(AuthService());
