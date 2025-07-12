@@ -2,30 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:to_do_list/controller/user_controller.dart';
+import 'package:to_do_list/formulario_tareas.dart';
+import 'package:to_do_list/index.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Get.find();
+
     return Drawer(
       backgroundColor: const Color(0xFF1E1E1E),
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            child: Column(
-              children: [
-                Text(
-                  "Lista de que hacer",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+          Obx(
+            () => UserAccountsDrawerHeader(
+              accountName: Text(
+                'Bienvenido',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              accountEmail: Text(
+                userController.userEmail.value,
+                style: TextStyle(color: Colors.white70, fontSize: 14),
+              ),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text(
+                  userController.userEmail.value.isNotEmpty
+                      ? userController.userEmail.value[0].toUpperCase()
+                      : 'U',
+                  style: TextStyle(fontSize: 40.0, color: Color(0xFF1E1E1E)),
                 ),
-              ],
+              ),
+              decoration: BoxDecoration(color: Color(0xFF2D2D2D)),
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.list_alt, color: Colors.white),
+            title: const Text(
+              "Lista de Tareas",
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Get.off(() => const index());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_task, color: Colors.white),
+            title: const Text(
+              "Crear Tarea",
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Get.to(() => const FormularioTareas());
+            },
+          ),
+          const Divider(color: Colors.white30),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.redAccent),
             title: const Text(
               "Cerrar sesión",
-              style: TextStyle(color: Colors.white, fontSize: 20.0),
+              style: TextStyle(color: Colors.redAccent, fontSize: 16.0),
             ),
             onTap: () {
               Navigator.pop(context);
@@ -81,7 +122,7 @@ Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
 
               await Supabase.instance.client.auth.signOut();
 
-              userController.UserEmail.value = null;
+              userController.userEmail.value = '';
 
               Get.offAllNamed('/');
             },

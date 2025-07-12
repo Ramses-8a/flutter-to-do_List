@@ -2,32 +2,31 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserController extends GetxController {
-  final Rx<String?> UserEmail = Rx<String?>(null);
+  final RxString userEmail = ''.obs;
   final RxBool isLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    _initialized();
+    _initializeUser();
   }
 
-  void _initialized() async {
+  void _initializeUser() {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
-      UserEmail.value = user.email;
+      userEmail.value = user.email ?? '';
     }
   }
 
   Future<void> setUserEmail(String? email) async {
-    UserEmail.value = email;
+    userEmail.value = email ?? '';
   }
 
   Future<void> signOut() async {
     isLoading.value = true;
     try {
       await Supabase.instance.client.auth.signOut();
-      UserEmail.value = null;
-
+      userEmail.value = '';
       Get.offAllNamed('/');
     } finally {
       isLoading.value = false;

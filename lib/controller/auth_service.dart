@@ -36,14 +36,25 @@ class AuthService extends GetxController {
         );
       }
     } on AuthException catch (e) {
-      Get.snackbar(
-        'Error',
-        e.message,
-        backgroundColor: Get.theme.colorScheme.error,
-        colorText: Get.theme.colorScheme.onError,
-        snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 5),
-      );
+      if (e.message.contains('already registered') || e.message.contains('already exists')) {
+        Get.snackbar(
+          'Correo existente',
+          'Este correo ya tiene una cuenta registrada.',
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 5),
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          e.message,
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 5),
+        );
+      }
     } catch (e) {
       Get.snackbar(
         'Error',

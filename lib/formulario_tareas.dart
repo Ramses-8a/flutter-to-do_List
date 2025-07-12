@@ -25,7 +25,7 @@ class _FormularioTareasState extends State<FormularioTareas> {
 
   Future<void> _guardarTarea() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     _isLoading.value = true;
 
     try {
@@ -37,10 +37,10 @@ class _FormularioTareasState extends State<FormularioTareas> {
       if (success) {
         // Refrescar la lista de tareas
         await _taskController.refreshTasks();
-        
+
         // Limpiar el formulario
         _limpiarFormulario();
-        
+
         // Mostrar mensaje de éxito
         Get.snackbar(
           'Éxito',
@@ -52,7 +52,7 @@ class _FormularioTareasState extends State<FormularioTareas> {
           margin: const EdgeInsets.all(10),
           borderRadius: 10,
         );
-        
+
         // Cerrar el formulario después de mostrar el mensaje
         await Future.delayed(const Duration(seconds: 1));
         Get.back();
@@ -70,13 +70,13 @@ class _FormularioTareasState extends State<FormularioTareas> {
     } catch (e) {
       Get.snackbar(
         'Error',
-          'Error al guardar la tarea: ${e.toString()}',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.TOP,
-          duration: const Duration(seconds: 5),
-          margin: const EdgeInsets.all(10),
-          borderRadius: 10,
+        'Error al guardar la tarea: ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 5),
+        margin: const EdgeInsets.all(10),
+        borderRadius: 10,
       );
     } finally {
       _isLoading.value = false;
@@ -96,7 +96,7 @@ class _FormularioTareasState extends State<FormularioTareas> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Get.back(),
         ),
-        title: const Text('Agregar Nota'),
+        title: const Text('Agregar Tarea'),
         backgroundColor: const Color(0xFF121212),
         foregroundColor: Colors.white,
         actions: [
@@ -195,11 +195,19 @@ class _FormularioTareasState extends State<FormularioTareas> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: _isLoading.value
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text('GUARDAR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                    child:
+                        _isLoading.value
+                            ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                            : const Text(
+                              'GUARDAR',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                              ),
+                            ),
                   ),
                 ),
               ),

@@ -15,11 +15,7 @@ class RegistroUsuario extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
-      appBar: AppBar(
-        title: const Text('Crear Cuenta'),
-        backgroundColor: const Color(0xFF1E1E1E),
-        elevation: 0,
-      ),
+
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -54,8 +50,26 @@ class RegistroUsuario extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, ingresa tu correo electrónico';
                     }
-                    if (!GetUtils.isEmail(value)) {
+                    final emailPattern =
+                        r'^[\w\.-]+@[\w\.-]+\.(com|es|net|org|edu)$';
+                    final allowedDomains = [
+                      '@gmail.com',
+                      '@outlook.com',
+                      '@hotmail.com',
+                      '@yahoo.com',
+                      '@icloud.com',
+                      '@protonmail.com',
+                      '@live.com',
+                      '@aol.com',
+                      '@mail.com',
+                    ];
+                    if (!RegExp(emailPattern).hasMatch(value)) {
                       return 'Por favor, ingresa un correo válido';
+                    }
+                    if (!allowedDomains.any(
+                      (domain) => value.endsWith(domain),
+                    )) {
+                      return 'El correo debe ser de un proveedor conocido (ej: gmail.com)';
                     }
                     return null;
                   },
@@ -114,16 +128,17 @@ class RegistroUsuario extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _authService.isLoading.value
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              _authService.signUp(
-                                _emailController.text,
-                                _passwordController.text,
-                              );
-                            }
-                          },
+                    onPressed:
+                        _authService.isLoading.value
+                            ? null
+                            : () {
+                              if (_formKey.currentState!.validate()) {
+                                _authService.signUp(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                );
+                              }
+                            },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2C2C2C),
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -132,19 +147,20 @@ class RegistroUsuario extends StatelessWidget {
                       ),
                     ),
                     child: Obx(
-                      () => _authService.isLoading.value
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text(
-                      'CREAR CUENTA',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
+                      () =>
+                          _authService.isLoading.value
+                              ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                              : const Text(
+                                'CREAR CUENTA',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                ),
+                              ),
                     ),
-                    ), 
                   ),
                 ),
                 const SizedBox(height: 16),
